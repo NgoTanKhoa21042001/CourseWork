@@ -32,8 +32,11 @@ public class AddActivity1 extends AppCompatActivity {
         amountEditText = findViewById(R.id.amountEditText);
         timeEditText = findViewById(R.id.timeEditText);
         button_expenses = findViewById(R.id.button_expenses);
+        // DROPDOWN, create dataset
         String [] items = {"Travel", "Food", "Transport"};
+
         ArrayAdapter<String> itemAdapter = new ArrayAdapter<>(AddActivity1.this, R.layout.item_list, items);
+        // connect autoCompleteTextView to itemAdapter
         autoCompleteTextView.setAdapter(itemAdapter);
         // date
         final Calendar calendar = Calendar.getInstance();
@@ -61,30 +64,27 @@ public class AddActivity1 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String trip_id = getIntent().getStringExtra("trip_id");
-                MyDatabaseHelper1 myDB = new MyDatabaseHelper1(AddActivity1.this);
-                myDB.addExpenses(autoCompleteTextView.getText().toString().trim(),
-                        amountEditText.getText().toString().trim(),
-                        timeEditText.getText().toString().trim(),
-                        trip_id);
-
-
                 String dropdown =autoCompleteTextView.getText().toString();
                 String amount =amountEditText.getText().toString();
                 String time =timeEditText.getText().toString();
                 if(dropdown.isEmpty()) {
                     Toast.makeText(AddActivity1.this, "You need to fill all required fields", Toast.LENGTH_SHORT).show();
-                    autoCompleteTextView.setError("Field can't be empty");
+                    return;
                 }
                 else if(amount.isEmpty()) {
                     Toast.makeText(AddActivity1.this, "You need to fill all required fields", Toast.LENGTH_SHORT).show();
-                    amountEditText.setError("Field can't be empty");
+                    return;
 
                 }
                 else if(time.isEmpty()) {
                     Toast.makeText(AddActivity1.this, "You need to fill all required fields", Toast.LENGTH_SHORT).show();
-                    timeEditText.setError("Field can't be empty");
-
+                    return;
                 }
+                MyDatabaseHelper1 myDB = new MyDatabaseHelper1(AddActivity1.this);
+                myDB.addExpenses(autoCompleteTextView.getText().toString().trim(),
+                        amountEditText.getText().toString().trim(),
+                        timeEditText.getText().toString().trim(),
+                        trip_id);
                 Intent intent = new Intent(AddActivity1.this, Expensive.class);
                 intent.putExtra("trip_id",trip_id);
                 startActivity(intent);

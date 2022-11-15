@@ -20,7 +20,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_DESINATION = "trip_desination";
     private static final String COLUMN_DATE = "trip_date";
     private static final String COLUMN_REQUIRE = "trip_require";
-//    private static final String COLUMN_DESCRIPTION = "trip_description";
+    private static final String COLUMN_DESCRIPTION = "trip_description";
 
     public MyDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -35,7 +35,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                         COLUMN_TITLE + " TEXT, " +
                         COLUMN_DESINATION + " TEXT, " +
                         COLUMN_DATE + " TEXT, " +
-                        COLUMN_REQUIRE + " TEXT) ; " ;
+                        COLUMN_REQUIRE + " TEXT, " +
+                        COLUMN_DESCRIPTION + " TEXT) ; " ;
         db.execSQL(query);
     }
 
@@ -46,14 +47,16 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void addTrip(String title, String desination, String date, String require) {
+    void addTrip(String title, String desination, String date, String require, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
+        // Method này để insert một bản ghi vào CSDL.
         ContentValues cv = new ContentValues();
 
         cv.put(COLUMN_TITLE, title);
         cv.put(COLUMN_DESINATION, desination);
         cv.put(COLUMN_DATE, date);
         cv.put(COLUMN_REQUIRE, require);
+        cv.put(COLUMN_DESCRIPTION, description);
         long result = db.insert(TABLE_NAME, null, cv);
 
         if(result == -1) {
@@ -72,13 +75,14 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
             return cursor;
     }
-    void updateData(String row_id, String title, String desination, String date, String require) {
+    void updateData(String row_id, String title, String desination, String date, String require, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_TITLE, title);
         cv.put(COLUMN_DESINATION, desination);
         cv.put(COLUMN_DATE, date);
         cv.put(COLUMN_REQUIRE, require);
+        cv.put(COLUMN_DESCRIPTION, description);
 
        long result =  db.update(TABLE_NAME, cv, "_id=?", new String[] {row_id});
        if(result == -1) {

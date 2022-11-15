@@ -18,14 +18,16 @@ import java.util.ArrayList;
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
     private Context context;
     Activity activity;
-    private ArrayList trip_id, trip_title, trip_desination, trip_date, trip_require;
+    private ArrayList trip_id, trip_title, trip_desination, trip_date, trip_require, trip_description;
     int position;
     CustomAdapter(Activity activity, Context context,
                   ArrayList trip_id,
                   ArrayList trip_title,
                   ArrayList trip_desination,
                   ArrayList trip_date,
-                  ArrayList trip_require) {
+                  ArrayList trip_require,
+                  ArrayList trip_description
+    ) {
         this.activity = activity;
         this.context = context;
         this.trip_id = trip_id;
@@ -33,6 +35,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         this.trip_desination = trip_desination;
         this.trip_date = trip_date;
         this.trip_require = trip_require;
+        this.trip_description = trip_description;
     }
 
 
@@ -45,12 +48,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     }
 
     @Override
+    // thiết lập thuộc tính View của dữ liệu
     public void onBindViewHolder(@NonNull MyViewHolder holder,  @SuppressLint("RecyclerView") final int position) {
         holder.trip_id_txt.setText(String.valueOf(trip_id.get(position)));
         holder.trip_title_txt.setText(String.valueOf(trip_title.get(position)));
         holder.trip_desination_txt.setText(String.valueOf(trip_desination.get(position)));
         holder.trip_date_txt.setText(String.valueOf(trip_date.get(position)));
         holder.trip_require_txt.setText(String.valueOf(trip_require.get(position)));
+        holder.trip_description_txt.setText(String.valueOf(trip_description.get(position)));
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,6 +65,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                 intent.putExtra("desination", String.valueOf(trip_desination.get(position)));
                 intent.putExtra("date", String.valueOf(trip_date.get(position)));
                 intent.putExtra("require", String.valueOf(trip_require.get(position)));
+                intent.putExtra("description", String.valueOf(trip_description.get(position)));
                 activity.startActivityForResult(intent, 1);
             }
         });
@@ -71,7 +77,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     }
 
      class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView trip_id_txt, trip_title_txt, trip_desination_txt, trip_date_txt, trip_require_txt;
+        TextView trip_id_txt, trip_title_txt, trip_desination_txt, trip_date_txt, trip_require_txt, trip_description_txt;
         LinearLayout mainLayout;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -80,6 +86,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             trip_desination_txt = itemView.findViewById(R.id.trip_desination_txt);
             trip_date_txt = itemView.findViewById(R.id.trip_date_txt);
             trip_require_txt = itemView.findViewById(R.id.trip_require_txt);
+            trip_description_txt = itemView.findViewById(R.id.trip_description_txt);
             mainLayout = itemView.findViewById(R.id.mainLayout);
         }
     }

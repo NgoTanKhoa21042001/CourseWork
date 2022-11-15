@@ -107,9 +107,11 @@ public class AddActivity extends AppCompatActivity {
                 myDB.addTrip(nameEditText.getText().toString().trim(),
                         desinationEditText.getText().toString().trim(),
                         dateEditText.getText().toString().trim(),
-                        radioButton.getText().toString().trim()
+                        radioButton.getText().toString().trim(),
+                        descriptionEditText.getText().toString().trim()
                         );
             }
         });
     }
 }
+

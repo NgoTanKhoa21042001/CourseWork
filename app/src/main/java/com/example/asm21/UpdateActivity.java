@@ -20,11 +20,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.Calendar;
 
 public class UpdateActivity extends AppCompatActivity {
-    TextInputEditText nameEditText, desinationEditText, dateEditText;
+    TextInputEditText nameEditText, desinationEditText, dateEditText, descriptionEditText;
     RadioGroup radioGroup;
     RadioButton radioButton;
     Button update_button, expenses_button, delete_button;
-    String id, title, desination, date, require;
+    String id, title, desination, date, require, description;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +54,7 @@ public class UpdateActivity extends AppCompatActivity {
             }
         });
         radioGroup = findViewById(R.id.radioGroup);
+        descriptionEditText = findViewById(R.id.descriptionEditText2);
         update_button = findViewById(R.id.update_button);
         delete_button = findViewById(R.id.delete_button);
         expenses_button = findViewById(R.id.expenses_button);
@@ -70,11 +71,35 @@ public class UpdateActivity extends AppCompatActivity {
                 radioButton = findViewById(selectedId);
                 MyDatabaseHelper myDB = new MyDatabaseHelper(UpdateActivity.this);
                 // And oonly then we call
+
                 title = nameEditText.getText().toString().trim();
                 desination = desinationEditText.getText().toString().trim();
                 date = dateEditText.getText().toString().trim();
                 require = radioButton.getText().toString().trim();
-                myDB.updateData(id, title, desination, date, require);
+                description = descriptionEditText.getText().toString().trim();
+                if(title.isEmpty()) {
+                    Toast.makeText(UpdateActivity.this, "You need to fill all required fields", Toast.LENGTH_SHORT).show();
+                    nameEditText.setError("Fied can't be empty");
+                    return;
+                }
+                else if(desination.isEmpty()) {
+                    Toast.makeText(UpdateActivity.this, "You need to fill all required fields", Toast.LENGTH_SHORT).show();
+                    desinationEditText.setError("Fied can't be empty");
+                    return;
+
+                }
+                else if(date.isEmpty()) {
+                    Toast.makeText(UpdateActivity.this, "You need to fill all required fields", Toast.LENGTH_SHORT).show();
+                    dateEditText.setError("Fied can't be empty");
+                    return;
+                }
+
+                else if(description.isEmpty()) {
+                    Toast.makeText(UpdateActivity.this, "You need to fill all required fields", Toast.LENGTH_SHORT).show();
+                    descriptionEditText.setError("Fied can't be empty");
+                    return;
+                }
+                myDB.updateData(id, title, desination, date, require, description);
             }
         });
 
@@ -84,7 +109,7 @@ public class UpdateActivity extends AppCompatActivity {
                 confirmDialog();
             }
         });
-
+        // Plus icon
         expenses_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,7 +126,8 @@ public class UpdateActivity extends AppCompatActivity {
         if(getIntent().hasExtra("id") && getIntent().hasExtra("title") &&
                 getIntent().hasExtra("desination") &&
                 getIntent().hasExtra("date") &&
-                getIntent().hasExtra("require")
+                getIntent().hasExtra("require") &&
+                getIntent().hasExtra("description")
         ) {
             // Getting data from intent
             id = getIntent().getStringExtra("id");
@@ -109,11 +135,13 @@ public class UpdateActivity extends AppCompatActivity {
             desination = getIntent().getStringExtra("desination");
             date = getIntent().getStringExtra("date");
             require = getIntent().getStringExtra("require");
+            description = getIntent().getStringExtra("description");
             // Setting Intent Data
             nameEditText.setText(title);
             desinationEditText.setText(desination);
             dateEditText.setText(date);
 //            radioButton.setChecked(true);
+            descriptionEditText.setText(description);
         } else {
             Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
         }

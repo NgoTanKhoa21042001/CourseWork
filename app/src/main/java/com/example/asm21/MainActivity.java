@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton add_button;
 
     MyDatabaseHelper myDB;
-    ArrayList<String> trip_id, trip_title, trip_desination, trip_date, trip_require;
+    ArrayList<String> trip_id, trip_title, trip_desination, trip_date, trip_require, trip_description;
     CustomAdapter customAdapter;
     private Object BottomNavigationView;
 
@@ -109,9 +109,11 @@ public class MainActivity extends AppCompatActivity {
         trip_desination = new ArrayList<>();
         trip_date = new ArrayList<>();
         trip_require = new ArrayList<>();
+        trip_description = new ArrayList<>();
 
         storeDataInArrays();
-        customAdapter = new CustomAdapter(MainActivity.this,this, trip_id, trip_title, trip_desination, trip_date, trip_require);
+        // khung data
+        customAdapter = new CustomAdapter(MainActivity.this,this, trip_id, trip_title, trip_desination, trip_date, trip_require, trip_description);
 
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
@@ -141,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 trip_desination.add(cursor.getString(2));
                 trip_date.add(cursor.getString(3));
                 trip_require.add(cursor.getString(4));
+                trip_description.add(cursor.getString(5));
             }
         }
     }
